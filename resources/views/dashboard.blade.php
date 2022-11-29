@@ -4,13 +4,17 @@
 
 <div class="row w-100" style="min-height: 80vh">
     <div class="col-4 border-end p-0">
-        <h2 class=" p-3" style="font-size: 16px; box-shadow: rgba(0, 0, 0, 0.09) 0px 3px 12px;">Friends</h2>
+        <div class="d-flex justify-content-between align-items-center p-3" style=" box-shadow: rgba(0, 0, 0, 0.09) 0px 3px 12px;">
+
+            <span class=" " style="font-size: 16px;">FRIENDS </span>@if($friendsCount > 0) <span>  {{$friendsCount}} </span> @endif
+        </div>
         <div class="container ms-1">
             @if($friends)
                 @foreach($friends as $friend)
 
-                <div class="card mt-2 p-1 bg-dark bg-gradient text-white bg-opacity-25">
-                  <p>{{ucFirst($friend->name)}}</p>
+                <div class="border rounded d-flex align-items-center justify-content-between mt-2 p-2 ps-3 pe-3 bg-dark bg-gradient text-white bg-opacity-25">
+                  <p class="mb-0" style="font-size:16px;">{{ucFirst($friend->name)}}</p>
+                  <a href="{{route('deleteFriend',$friend->id)}}" class=""><i class="fas fa-trash" style="color:rgb(213, 64, 64);"> </i></a>
                 </div>
                 @endforeach
             @endif
@@ -31,11 +35,21 @@
             </form>
             <hr>
             @foreach($statuses as $status)
-            <div class="status card mt-2">
+            <div class="status border p-3 mt-2 d-flex justify-content-between">
                 <div class="card-body">
-                    <h5 class="card-title">{{$status->user->name}}</h5>
-                    <p class="card-text">{{$status->status}}</p>
+                    <h5 class="card-title" style="font-size:20px;">{{$status->user->name}}</h5>
+                    <p class="card-text ps-2">{{$status->status}}</p>
                 </div>
+                    @if($status->user->id == auth()->user()->id)
+                    <div class="actions">
+
+                        <a href="{{route('editPost',$status->id)}}" class="btn btn-primary" ><i class="fas fa-pen-nib" style="width:20px; height:20px; color:white;"></i></a>
+                        <a href="{{route('deletePost',$status->id)}}" class="btn btn-danger" ><i class="fas fa-trash" style="width:20px; height:20px; color:white;"></i></a>
+
+                    </div>
+
+                    @endif
+                
             </div>
             @endforeach
         </div>

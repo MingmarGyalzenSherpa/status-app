@@ -15,6 +15,7 @@ class HomeController extends Controller
     {
 
         $data = Friend::where('user1_id', auth()->user()->id)->orWhere('user2_id', auth()->user()->id)->get();
+        $friendsCount = $data->count();
         $friends = array();
         //get all friends
         foreach ($data as $friend) {
@@ -29,8 +30,12 @@ class HomeController extends Controller
         $statuses = array();
         //get all the post
         $posts = Post::all();
-        foreach ($friends as $friend) {
-            foreach ($posts as $post) {
+        foreach ($posts as $post) {
+            if ($post->user->id == auth()->user()->id) {
+                array_push($statuses, $post);
+                continue;
+            }
+            foreach ($friends as $friend) {
                 if ($post->user->id == $friend->id) {
                     array_push($statuses, $post);
                 }
@@ -53,6 +58,6 @@ class HomeController extends Controller
         }
 
 
-        return view('dashboard', compact('friends', 'statuses', 'friendRequestCount', 'friendRequests'));
+        return view('dashboard', compact('friendsCount', 'friends', 'statuses', 'friendRequestCount', 'friendRequests'));
     }
 }

@@ -34,15 +34,25 @@ Route::get('/signup', function () {
 
 Route::post('/signup', [UserController::class, 'signupUser'])->name('signupUser');
 
-Route::get('/logout', [UserController::class, 'logoutUser'])->name('logout');
+Route::get('/logout', [UserController::class, 'logoutUser'])->name('logout')->middleware('auth');
 
-Route::post('/search-friend', [UserController::class, 'searchFriend'])->name('searchFriend');
+Route::post('/search-friend', [UserController::class, 'searchFriend'])->name('searchFriend')->middleware('auth');
 
 //Send Friend Request
-Route::get('/send-friend-req/{id}', [FriendRequestController::class, 'sendFriendRequest'])->name('sendFriendRequest');
+Route::get('/send-friend-req/{id}', [FriendRequestController::class, 'sendFriendRequest'])->name('sendFriendRequest')->middleware('auth');
 
 //friend request accept
-Route::get('/friend-request-accept/{id}', [FriendRequestController::class, 'AcceptFriendRequest'])->name('acceptFriendRequest');
+Route::get('/friend-request-accept/{id}', [FriendRequestController::class, 'AcceptFriendRequest'])->name('acceptFriendRequest')->middleware('auth');
+
+//delete friend
+Route::get('/delete-friend/{id}', [FriendController::class, 'deleteFriend'])->name('deleteFriend');
 
 //Add Post
-Route::post('/add-post', [PostController::class, 'addPost'])->name('addPost');
+Route::post('/add-post', [PostController::class, 'addPost'])->name('addPost')->middleware('auth');
+
+//Edit post
+Route::get('/edit-post/{id}', [PostController::class, 'editPost'])->name('editPost');
+Route::post('/edit-post', [PostController::class, 'saveChangesToEditPost'])->name('saveChangesToEditPost');
+
+//Delete post
+Route::get('/delete-post/{id}', [PostController::class, 'deletePost'])->name('deletePost');
