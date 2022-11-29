@@ -6,8 +6,14 @@
 <div class="container">
     <div class="card p-2 d-flex justify-content-between">
         @if($user)
-        <p>Name: {{ucFirst($user->name)}} </p> 
-        <a href="{{route('addFriend',$user->id)}}" class="btn btn-primary">Add Friend</a>
+            <p>Name: {{ucFirst($user->name)}} </p> 
+             @if($friendRequestSent)
+                <a href="{{route('dashboard')}}" class="btn btn-danger">Friend Request Already Sent! Go Back</a>
+            @else
+                <a href="{{route('sendFriendRequest',$user->id)}}" class="btn btn-primary">
+                Add Friend
+                </a>
+            @endif
         @else
         <p>Sorry! NO such user found</p>
         @endif

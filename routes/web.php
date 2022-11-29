@@ -3,6 +3,7 @@
 use App\Models\Friend;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\FriendController;
+use App\Http\Controllers\FriendRequestController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
@@ -37,8 +38,11 @@ Route::get('/logout', [UserController::class, 'logoutUser'])->name('logout');
 
 Route::post('/search-friend', [UserController::class, 'searchFriend'])->name('searchFriend');
 
-//Add friend
-Route::get('/add-friend/{id}', [FriendController::class, 'addFriend'])->name('addFriend');
+//Send Friend Request
+Route::get('/send-friend-req/{id}', [FriendRequestController::class, 'sendFriendRequest'])->name('sendFriendRequest');
+
+//friend request accept
+Route::get('/friend-request-accept/{id}', [FriendRequestController::class, 'AcceptFriendRequest'])->name('acceptFriendRequest');
 
 //Add Post
 Route::post('/add-post', [PostController::class, 'addPost'])->name('addPost');

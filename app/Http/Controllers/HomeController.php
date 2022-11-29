@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Friend;
+use App\Models\FriendRequest;
 use App\Models\User;
 use App\Models\Post;
 
@@ -36,6 +37,22 @@ class HomeController extends Controller
             }
         }
 
-        return view('dashboard', compact('friends', 'statuses'));
+        //get all friend requests
+
+        //friend request count
+        $friendRequestCount = FriendRequest::where('user1_id', auth()->user()->id)->count();
+
+        //friend request list with id
+        $friendRequestIDs = FriendRequest::where('user1_id', auth()->user()->id)->get();
+
+        //to store the users
+        $friendRequests = array();
+        //getting corresponding value from user table
+        foreach ($friendRequestIDs as $friendRequestID) {
+            array_push($friendRequests, User::where('id', $friendRequestID->user2_id)->first());
+        }
+
+
+        return view('dashboard', compact('friends', 'statuses', 'friendRequestCount', 'friendRequests'));
     }
 }
