@@ -9,10 +9,13 @@
             <p>Name: {{ucFirst($user->name)}} </p> 
              @if($friendRequestSent)
                 <a href="{{route('dashboard')}}" class="btn btn-danger">Friend Request Already Sent! Go Back</a>
+            @elseif($isAlreadyFriend)
+            <a href="{{route('dashboard')}}" class="btn btn-primary">Already Friends with this Person! Go Back</a>
             @else
-                <a href="{{route('sendFriendRequest',$user->id)}}" class="btn btn-primary">
+            <a href="{{route('sendFriendRequest',$user->id)}}" class="btn btn-primary">
                 Add Friend
                 </a>
+            
             @endif
         @else
         <p>Sorry! NO such user found</p>

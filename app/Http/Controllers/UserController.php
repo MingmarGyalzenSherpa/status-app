@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Models\User;
+use App\Models\Friend;
 use App\Models\FriendRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -72,6 +73,10 @@ class UserController extends Controller
         //friend request sent to searched user is false by default;
         $friendRequestSent = false;
 
+        //friends with searched user is false by default
+        $isAlreadyFriend = false;
+
+
         //if searched user is found
         if ($user) {
 
@@ -79,6 +84,13 @@ class UserController extends Controller
             //to check if friend request has already been sent
             $isPending1 = FriendRequest::where('user1_id', auth()->user()->id)->where('user2_id', $user->id)->first();
             $isPending2 = FriendRequest::where('user1_id', $user->id)->where('user2_id', auth()->user()->id)->first();
+
+
+            //to check if already friends
+            $isAlreadyFriend = Friend::where('user1_id', auth()->user()->id)->where('user2_id', $user->id)->first();
+            if (!$isAlreadyFriend) {
+                $isAlreadyFriend = Friend::where('user1_id', $user->id)->where('user2_id', auth()->user()->id)->first();
+            }
 
             //get all friend requests
 
@@ -90,7 +102,7 @@ class UserController extends Controller
             }
         }
         if (!$user || $user->id != auth()->user()->id) {
-            return view('searchResult', compact('user', 'friendRequestSent', 'friendRequestCount', 'friendRequests'));
+            return view('searchResult', compact('user', 'friendRequestSent', 'isAlreadyFriend', 'friendRequestCount', 'friendRequests'));
         } else {
             return redirect()->route('dashboard');
         }
