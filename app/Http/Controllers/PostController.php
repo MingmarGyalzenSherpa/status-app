@@ -12,10 +12,21 @@ class PostController extends Controller
     //
     public function addPost(Request $req)
     {
-        Post::create([
-            'status' => $req->status,
-            'user_id' => auth()->user()->id,
-        ]);
+        if ($req->hasFile('img')) {
+            $image = $req->file('img');
+            $response = $image->store('images', 'public');
+            Post::create([
+                'status' => $req->status,
+                'img_path' => $response,
+                'user_id' => auth()->user()->id,
+            ]);
+        } else {
+
+            Post::create([
+                'status' => $req->status,
+                'user_id' => auth()->user()->id,
+            ]);
+        }
         return redirect()->route('dashboard');
     }
 

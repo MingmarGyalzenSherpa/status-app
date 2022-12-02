@@ -10,7 +10,7 @@
              @if($friendRequestSent)
                 <a href="{{route('dashboard')}}" class="btn btn-danger">Friend Request Already Sent! Go Back</a>
             @elseif($isAlreadyFriend)
-            <a href="{{route('dashboard')}}" class="btn btn-primary">Already Friends with this Person! Go Back</a>
+            <a href="{{route('dashboard')}}" class="btn btn-primary">Already Friends with this Persong! Go Back</a>
             @else
             <a href="{{route('sendFriendRequest',$user->id)}}" class="btn btn-primary">
                 Add Friend
