@@ -39,11 +39,24 @@
             </form>
             <hr>
             @foreach($statuses as $status)
-            <div class="status border p-3 mt-2 d-flex justify-content-between">
+            <div class="status border p-3 bg-dark bg-opacity-10 mt-1 mb-1 d-flex justify-content-between">
+                
+                @if($status->img_path)
+                    <div class="card-body">
+                        <h5 class="card-title" style="font-size:20px;">{{$status->user->name}}</h5>
+                        <p class="card-text ps-2 mb-0 pb-0">{{$status->status}}</p>
+                        <div class="img-container pt-0 pb-1" style="aspect-ratio:1/1;width:300px;">
+                            <img src="{{asset('/storage/'.$status->img_path)}}" alt="" class="src" style="width:100%;height:100%; object-fit:contain;">
+                        </div>
+                    </div>
+
+                
+                @else
                 <div class="card-body">
                     <h5 class="card-title" style="font-size:20px;">{{$status->user->name}}</h5>
                     <p class="card-text ps-2">{{$status->status}}</p>
                 </div>
+                @endif
                     @if($status->user->id == auth()->user()->id)
                     <div class="actions">
 
@@ -53,6 +66,8 @@
                     </div>
 
                     @endif
+                
+                
                 
             </div>
             @endforeach
